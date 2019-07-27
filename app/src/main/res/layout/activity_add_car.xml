@@ -1,16 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context=".AddCarActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <EditText
+        android:id="@+id/vehicle_plate_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="355dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:hint="@string/car_number" />
+
+    <EditText
+        android:id="@+id/vehicle_identification_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/vehicle_identification_number" />
+
+    <EditText
+        android:id="@+id/car_vignette_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/car_vignette_start"
+        android:inputType="none" />
+
+    <EditText
+        android:id="@+id/car_vignette_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/car_vignette_end"
+        android:inputType="none" />
+
+    <EditText
+        android:id="@+id/car_insurance_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/car_insurance_start"
+        android:inputType="none" />
+
+    <EditText
+        android:id="@+id/car_insurance_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/car_insurance_end"
+        android:inputType="none" />
+
+    <EditText
+        android:id="@+id/car_inspection_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/car_revision_start"
+        android:inputType="none" />
+
+    <EditText
+        android:id="@+id/car_inspection_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/car_revision_end"
+        android:inputType="none" />
+
+</LinearLayout>
