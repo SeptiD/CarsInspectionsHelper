@@ -8,11 +8,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
+
+import io.realm.Realm;
 
 public class AddCarActivity extends AppCompatActivity {
 
@@ -29,6 +33,7 @@ public class AddCarActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mCarInspectionStartListener;
     private TextView mCarInspectionEndDate;
     private DatePickerDialog.OnDateSetListener mCarInspectionEndListener;
+    private Button mAddCarButton;
 
     private void lose_focus(){
 
@@ -36,6 +41,7 @@ public class AddCarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Realm realm = Realm.getDefaultInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_car);
         mCarVignetteStartDate = (TextView) findViewById(R.id.car_vignette_start);
@@ -44,29 +50,16 @@ public class AddCarActivity extends AppCompatActivity {
         mCarInsuranceEndDate = (TextView) findViewById(R.id.car_insurance_end);
         mCarInspectionStartDate = (TextView) findViewById(R.id.car_inspection_start);
         mCarInspectionEndDate = (TextView) findViewById(R.id.car_inspection_end);
+        mAddCarButton = (Button) findViewById(R.id.add_car_button);
 
-//        ((EditText) findViewById(R.id.vehicle_plate_number)).setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                /* When focus is lost check that the text field
-//                 * has valid values.
-//                 */
-//                if (!hasFocus) {
-//                    Log.d("Whateva", ((EditText) v).getText().toString());
-//                    carManager.setCarPlate(((EditText) v).getText().toString());
-//                    carManager.printToDebug();
-//                }
-//            }
-//        });
+
 
         mCarVignetteStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                ((EditText) findViewById(R.id.vehicle_plate_number)).clearFocus();
                 int year, month, day;
                 if (carManager.getCarVignetteStart() != null) {
-                    Calendar carVgnStrart = carManager.getCarVignetteStart();
+                    Calendar carVgnStrart = CarManager.toCalendar(carManager.getCarVignetteStart());
                     year = carVgnStrart.get(Calendar.YEAR);
                     month = carVgnStrart.get(Calendar.MONTH);
                     day = carVgnStrart.get(Calendar.DAY_OF_MONTH);
@@ -89,7 +82,6 @@ public class AddCarActivity extends AppCompatActivity {
         mCarVignetteStartListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-//                Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
                 String date = day + "/" + month + "/" + year;
                 mCarVignetteStartDate.setText(date);
                 carManager.setCarVignetteStart(year, month, day);
@@ -103,7 +95,7 @@ public class AddCarActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int year, month, day;
                 if (carManager.getCarVignetteEnd() != null) {
-                    Calendar cal = carManager.getCarVignetteEnd();
+                    Calendar cal = CarManager.toCalendar(carManager.getCarVignetteEnd());
                     year = cal.get(Calendar.YEAR);
                     month = cal.get(Calendar.MONTH);
                     day = cal.get(Calendar.DAY_OF_MONTH);
@@ -118,8 +110,14 @@ public class AddCarActivity extends AppCompatActivity {
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mCarVignetteEndListener,
                         year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+                try {
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                }catch (NullPointerException e)
+                {
+                    Log.e("Error","Set background error");
+                }
+
             }
         });
 
@@ -139,7 +137,7 @@ public class AddCarActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int year, month, day;
                 if (carManager.getCarInsuranceStart() != null) {
-                    Calendar cal = carManager.getCarInsuranceStart();
+                    Calendar cal = CarManager.toCalendar(carManager.getCarInsuranceStart());
                     year = cal.get(Calendar.YEAR);
                     month = cal.get(Calendar.MONTH);
                     day = cal.get(Calendar.DAY_OF_MONTH);
@@ -174,7 +172,7 @@ public class AddCarActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int year, month, day;
                 if (carManager.getCarInsuranceEnd() != null) {
-                    Calendar cal = carManager.getCarInsuranceEnd();
+                    Calendar cal = CarManager.toCalendar(carManager.getCarInsuranceEnd());
                     year = cal.get(Calendar.YEAR);
                     month = cal.get(Calendar.MONTH);
                     day = cal.get(Calendar.DAY_OF_MONTH);
@@ -209,7 +207,7 @@ public class AddCarActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int year, month, day;
                 if (carManager.getCarInspectionStart() != null) {
-                    Calendar cal = carManager.getCarInspectionStart();
+                    Calendar cal = CarManager.toCalendar(carManager.getCarInspectionStart());
                     year = cal.get(Calendar.YEAR);
                     month = cal.get(Calendar.MONTH);
                     day = cal.get(Calendar.DAY_OF_MONTH);
@@ -244,7 +242,7 @@ public class AddCarActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int year, month, day;
                 if (carManager.getCarInspectionEnd() != null) {
-                    Calendar cal = carManager.getCarInspectionEnd();
+                    Calendar cal = CarManager.toCalendar(carManager.getCarInspectionEnd());
                     year = cal.get(Calendar.YEAR);
                     month = cal.get(Calendar.MONTH);
                     day = cal.get(Calendar.DAY_OF_MONTH);
@@ -273,5 +271,22 @@ public class AddCarActivity extends AppCompatActivity {
                 carManager.printToDebug();
             }
         };
+
+        mAddCarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Realm realm = Realm.getDefaultInstance();
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.insertOrUpdate(carManager);
+                        Toast.makeText(getApplicationContext(),"Car added",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
     }
+
 }

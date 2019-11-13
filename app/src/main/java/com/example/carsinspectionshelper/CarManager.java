@@ -3,16 +3,21 @@ package com.example.carsinspectionshelper;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.Date;
 
-public class CarManager {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class CarManager extends RealmObject {
+    @PrimaryKey
     private String carPlate;
     private String vehicleIdentificationNumber;
-    private Calendar carVignetteStart;
-    private Calendar carVignetteEnd;
-    private Calendar carInsuranceStart;
-    private Calendar carInsuranceEnd;
-    private Calendar carInspectionStart;
-    private Calendar carInspectionEnd;
+    private Date carVignetteStart;
+    private Date carVignetteEnd;
+    private Date carInsuranceStart;
+    private Date carInsuranceEnd;
+    private Date carInspectionStart;
+    private Date carInspectionEnd;
 
 
     public String getCarPlate() {
@@ -32,62 +37,68 @@ public class CarManager {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
     }
 
-    public Calendar getCarVignetteStart() {
+    public Date getCarVignetteStart() {
         return carVignetteStart;
     }
 
     public void setCarVignetteStart(int year, int month, int day) {
-        this.carVignetteStart = this.get_calendar_from_parts(year, month, day);
+        this.carVignetteStart = this.getDateFromParts(year, month, day);
     }
 
 
-    public Calendar getCarVignetteEnd() {
+    public Date getCarVignetteEnd() {
         return carVignetteEnd;
     }
 
     public void setCarVignetteEnd(int year, int month, int day) {
-        this.carVignetteEnd = this.get_calendar_from_parts(year, month, day);
+        this.carVignetteEnd = this.getDateFromParts(year, month, day);
     }
 
-    public Calendar getCarInsuranceStart() {
+    public Date getCarInsuranceStart() {
         return carInsuranceStart;
     }
 
     public void setCarInsuranceStart(int year, int month, int day) {
-        this.carInsuranceStart = this.get_calendar_from_parts(year, month, day);
+        this.carInsuranceStart = this.getDateFromParts(year, month, day);
     }
 
-    public Calendar getCarInsuranceEnd() {
+    public Date getCarInsuranceEnd() {
         return carInsuranceEnd;
     }
 
     public void setCarInsuranceEnd(int year, int month, int day) {
-        this.carInsuranceEnd = this.get_calendar_from_parts(year, month, day);
+        this.carInsuranceEnd = this.getDateFromParts(year, month, day);
     }
 
-    public Calendar getCarInspectionStart() {
+    public Date getCarInspectionStart() {
         return carInspectionStart;
     }
 
     public void setCarInspectionStart(int year, int month, int day) {
-        this.carInspectionStart = this.get_calendar_from_parts(year, month, day);
+        this.carInspectionStart = this.getDateFromParts(year, month, day);
     }
 
-    public Calendar getCarInspectionEnd() {
+    public Date getCarInspectionEnd() {
         return carInspectionEnd;
     }
 
     public void setCarInspectionEnd(int year, int month, int day) {
-        this.carInspectionEnd = this.get_calendar_from_parts(year, month, day);
+        this.carInspectionEnd = this.getDateFromParts(year, month, day);
     }
 
-    private Calendar get_calendar_from_parts(int year, int month, int day) {
+    private Date getDateFromParts(int year, int month, int day) {
         Calendar newDate = Calendar.getInstance();
         newDate.set(Calendar.YEAR, year);
         newDate.set(Calendar.MONTH, month);
         newDate.set(Calendar.DAY_OF_MONTH, day);
 
-        return newDate;
+        return newDate.getTime();
+    }
+
+    public static Calendar toCalendar(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
     }
 
     public void printToDebug() {
@@ -98,22 +109,22 @@ public class CarManager {
             Log.d("Whateva", vehicleIdentificationNumber);
         }
         if (carVignetteStart != null) {
-            Log.d("Whateva", carVignetteStart.getTime().toString());
+            Log.d("Whateva", carVignetteStart.toString());
         }
         if (carVignetteEnd != null) {
-            Log.d("Whateva", carVignetteEnd.getTime().toString());
+            Log.d("Whateva", carVignetteEnd.toString());
         }
         if (carInsuranceStart != null) {
-            Log.d("Whateva", carInsuranceStart.getTime().toString());
+            Log.d("Whateva", carInsuranceStart.toString());
         }
         if (carInsuranceEnd != null) {
-            Log.d("Whateva", carInsuranceEnd.getTime().toString());
+            Log.d("Whateva", carInsuranceEnd.toString());
         }
         if (carInspectionStart != null) {
-            Log.d("Whateva", carInspectionStart.getTime().toString());
+            Log.d("Whateva", carInspectionStart.toString());
         }
         if (carInspectionEnd != null) {
-            Log.d("Whateva", carInspectionEnd.getTime().toString());
+            Log.d("Whateva", carInspectionEnd.toString());
         }
     }
 

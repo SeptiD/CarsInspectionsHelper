@@ -75,4 +75,10 @@
         android:hint="@string/car_revision_end"
         android:inputType="none" />
 
+    <Button
+        android:id="@+id/add_car_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_car" />
+
 </LinearLayout>
